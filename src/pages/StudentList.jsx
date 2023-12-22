@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 
 
@@ -10,15 +11,13 @@ export default function StudentList() {
   const [selectedStudent, setselectedStudent] = useState(null);
 
   const studentAdd = () => {
+    
     const newStudent = { name, phone }
-    const openEditform = () => {
 
-    }
-
-    setStudentlist((curentArray) => {
-      curentArray.push(newStudent);
-      //  return curentArray;
-      return [...curentArray];
+    setStudentlist((currentdata) => {
+      newStudent["id"] = currentdata.length + 1;
+      currentdata.push(newStudent);
+      return [...currentdata];
     });
     closeStudentForm();
   }
@@ -27,12 +26,33 @@ export default function StudentList() {
     setShow(true);
   }
 
-
+  const displayEditForm = (student) => {
+    setselectedStudent(student);
+    setShowEditForm(true);
+  }
   const closeStudentForm = () => {
     setShow(false);
     setName("");
     setPhone("");
-    setEditShow(true);
+  }
+  const closeEditFrom = () => {
+    setShowEditForm(false);
+    //selectedStudent.name ("");
+    //selectedStudent.phone("");
+
+  }
+
+  const updateStudent = () => {
+    studentlist.map((student, index) => {
+      if (student.id === selectedStudent.id) {
+        setStudentlist((currentdata) => {
+          currentdata[index] = selectedStudent;
+          return [...currentdata];
+        });
+      } else {
+        alert("Can't Update");
+      }
+    });
   }
 
   return (
@@ -59,9 +79,9 @@ export default function StudentList() {
                 <td>{index + 1}</td>
                 <td>{student.name}</td>
                 <td>{student.phone}</td>
-                <td><button>Edit</button></td>
-
+                <td><button onClick={() => displayEditForm(student)}>Edit</button></td>
               </tr>
+
             })}
 
           </tbody>
@@ -82,8 +102,8 @@ export default function StudentList() {
                   }}
                 />
 
-                <div class="col mb-2">
-                  <label htmlFor="formGroupExampleInput" class="form-label">Phone</label>
+                <div className="col mb-2">
+                  <label htmlFor="formGroupExampleInput" className="form-label">Phone</label>
                   <input
                     type="text"
                     className="form-control"
@@ -100,6 +120,7 @@ export default function StudentList() {
             </div>
           </div>
           : <button type="button" className="btn btn-success" onClick={displayStudentForm}>Add</button>
+
         }
 
         {
@@ -108,38 +129,48 @@ export default function StudentList() {
               <div className="row">
                 <div className="col mb-2">
                   <label htmlFor="formGroupExampleInput" className="form-label">Name</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="Enter Name"
-                    aria-label="Enter Name"
-                    value={name}
-                    onChange={(e) => {
-                      setName(e.target.value);
-                    }}
-                  />
-
-                  <div class="col mb-2">
-                    <label htmlFor="formGroupExampleInput" class="form-label">Phone</label>
+                  <span>
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Name"
+                      aria-label="Enter Name"
+                      value={selectedStudent.name}
+                      onChange={(e) => {
+                        setselectedStudent((currentdata) => {
+                          currentdata.name = e.target.value
+                          return { ...currentdata }
+                        });
+                      }}
+                    />
+                 
+                    <div className="col mb-2">
+                    <label htmlFor="formGroupExampleInput" className="form-label">Phone</label>
                     <input
                       type="text"
                       className="form-control"
                       placeholder="Enter Phone"
                       aria-label="Enter Phone"
-                      value={phone}
+                      value={selectedStudent.phone}
                       onChange={(e) => {
-                        setPhone(e.target.value);
-                      }} />
+                        setselectedStudent((currentdata) => {
+                          currentdata.phone = e.target.value
+                          return { ...currentdata }
+                        });
+                      }}
+                    />  
                   </div>
+                  </span>
                 </div>
-                <button type="button" className="btn btn-success" onClick={studentAdd}>Submit</button>
-                <button type="button" className="btn btn-danger" style={{ marginLeft: "5px" }} onClick={closeStudentForm}>Close</button>
+                <button type="button" className="btn btn-success" onClick={updateStudent}>submit</button>
+                <button type="button" className="btn btn-danger" style={{ marginLeft: "5px" }} onClick={closeEditFrom}>Close</button>
               </div>
             </div>
-          )
-            : null
+
+          ) : null
         }
       </div>
     </div>
+
   )
 }
