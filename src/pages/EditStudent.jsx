@@ -3,7 +3,8 @@ export default function EditStudent({setStudentlist,
   studentlist,
   selectedstud,
   setSelectedstud,
-hideEditForm}) {
+   hideEditForm}) 
+   {
   const updateStudent = () => {
     studentlist.map((student, index) => {
       if (student.id === selectedstud.id) {

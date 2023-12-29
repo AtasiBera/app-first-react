@@ -1,22 +1,31 @@
 import React, { useState } from "react";
+import { setData,getData } from "../utils/storageHelper";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function AddStudent({ setStudentlist, hideForm }) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const navigate =useNavigate()
   function addNewstudent() {
-    const newStudent = { name, phone };
-    setStudentlist((currentlist) => {
-      newStudent["id"] = currentlist.length + 1;
-      currentlist.push(newStudent);
-      return [...currentlist];
-    });
-    hideForm(false);
-  }
+  const newStudent = { name, phone };
+  //   //setStudentlist((currentlist) => {
+  //     newStudent["id"] = currentlist.length + 1;
+  //     currentlist.push(newStudent);
+  //     return [...currentlist];
+  //   });
+  //   hideForm(false);
+  const allStudent = getData();
+  newStudent["id"] = allStudent.length +1;
+  allStudent.push(newStudent);
+  setData(allStudent);
+  closeStudentForm();
+   }
   const closeStudentForm = () => {
-    hideForm(false);
-    setName("");
-    setPhone("");
-  };
+    // // hideForm(false);
+    // setName("");
+    // setPhone("");
+    navigate("/");
+  }
   return (
     <div>
       <span>
