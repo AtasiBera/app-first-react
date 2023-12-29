@@ -4,7 +4,7 @@ import EditStudent from "./EditStudent";
 import { useNavigate } from "react-router-dom";
 import { getData } from "../utils/storageHelper";
 const Studentlist = () => {
-  const [selectedstud, setSelectedstud] = useState(null);
+
   const [studentlist, setStudentlist] = useState([]);
   const [show, setShow] = useState(false);
   const [editShow, setEditShow] = useState(false);
@@ -17,14 +17,26 @@ const Studentlist = () => {
   );
 
   function addstudent() {
+    //send data using navigate state
     //setShow(true);
     navigate("/student-add")
   }
 
   const openEditForm = (s) => {
-    setSelectedstud(s);
-    setEditShow(true);
+    //send data with query param
+   //send data using navigate state
+   //navigate("/student-edit",{state:{id:s}});
+ //send data in query string or search param
+  // navigate(`/student-edit?id=${s}`);
+
+  //3)send data in path variable or param
+//NOTE:need to set path name in route like this path:"/student-edit/:id"
+  navigate(`/student-edit/${s}`);
+
+   // setSelectedstud(s);
+   // setEditShow(true);
   };
+
 
 
   return (
@@ -46,7 +58,7 @@ const Studentlist = () => {
                   <td>{index + 1}</td>
                   <td>{s.name}</td>
                   <td>{s.phone}</td>
-                  <td><button onClick={() => openEditForm(s)}>EDIT</button></td>
+                  <td><button onClick={() => openEditForm(s.id)}>EDIT</button></td>
                 </tr>
               );
             })}

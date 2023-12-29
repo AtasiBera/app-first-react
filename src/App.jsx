@@ -3,6 +3,7 @@ import './App.css'
 import StudentList from "./pages/StudentList";
 import AjaxToReact from "./pages/AjaxtoReact";
 import AddStudent from "./pages/AddStudent";
+import EditStudent from "./pages/EditStudent";
    
 const router = createBrowserRouter([
   { 
@@ -17,6 +18,10 @@ element:<AddStudent/>
   path:"/ajax-react",
   element:<AjaxToReact/>
 },
+{
+  path:"/student-edit/:id",
+  element:<EditStudent/>
+}
 ]);
 function App() {
  // let condition = 2;
